@@ -133,6 +133,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     }
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         title: const Text(
