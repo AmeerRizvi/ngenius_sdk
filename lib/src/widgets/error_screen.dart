@@ -8,7 +8,7 @@ class ErrorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Theme.of(context).scaffoldBackgroundColor,
+      color: const Color.fromARGB(255, 255, 255, 255),
       child: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
