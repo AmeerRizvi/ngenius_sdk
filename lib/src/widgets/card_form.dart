@@ -12,7 +12,7 @@ class CardScreen extends StatefulWidget {
     this.onCardPay,
     this.payBtnKey,
     this.formKey,
-    this.displayTestData = true,
+    this.displayTestData = false,
     this.submitLabel = 'Pay',
     this.currency,
     this.price,
@@ -83,6 +83,17 @@ class _CardScreenState extends State<CardScreen> {
         (widget.currency == null ? "" : " ${widget.currency}") +
         (widget.price == null ? "" : " ${widget.price}");
 
+    const inputDeco = InputDecoration(
+      filled: true,
+      fillColor: Colors.transparent,
+      border: InputBorder.none,
+      errorBorder: InputBorder.none,
+      enabledBorder: InputBorder.none,
+      focusedBorder: InputBorder.none,
+      disabledBorder: InputBorder.none,
+      focusedErrorBorder: InputBorder.none,
+    );
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
       child: Form(
@@ -118,11 +129,8 @@ class _CardScreenState extends State<CardScreen> {
                     separator: ' ',
                   )
                 ],
-                decoration: const InputDecoration(
-                  hintText: '1234 1234 1234 1232',
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 5, horizontal: 16),
-                  border: InputBorder.none,
+                decoration: inputDeco.copyWith(
+                  hintText: '1234 1234 1234 1234',
                 ),
                 onChanged: (input) {
                   CardBrand newBrand =
@@ -161,11 +169,8 @@ class _CardScreenState extends State<CardScreen> {
                           separator: '/',
                         )
                       ],
-                      decoration: const InputDecoration(
+                      decoration: inputDeco.copyWith(
                         hintText: 'MM / YY',
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 5, horizontal: 16),
-                        border: InputBorder.none,
                       ),
                     ),
                   ),
@@ -190,11 +195,8 @@ class _CardScreenState extends State<CardScreen> {
                           separator: '',
                         )
                       ],
-                      decoration: const InputDecoration(
+                      decoration: inputDeco.copyWith(
                         hintText: 'CVC',
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 5, horizontal: 16),
-                        border: InputBorder.none,
                       ),
                     ),
                     suffix: SizedBox(
@@ -232,13 +234,7 @@ class _CardScreenState extends State<CardScreen> {
                     return 'Enter a valid name';
                   }
                 },
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(
-                    vertical: 5,
-                    horizontal: 16,
-                  ),
-                  border: InputBorder.none,
-                ),
+                decoration: inputDeco.copyWith(),
               ),
             ),
             const SizedBox(
