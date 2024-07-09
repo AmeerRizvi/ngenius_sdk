@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:ngenius_sdk/src/utils/enums.dart';
 
 showSnack(BuildContext context, String message) {
   ScaffoldMessenger.of(context).showSnackBar(
@@ -27,23 +28,10 @@ showSnack(BuildContext context, String message) {
   );
 }
 
-enum ScreenStatus {
-  details,
-  authentication,
-  success,
-  error,
-}
-
 pprint(json) {
   var encoder = const JsonEncoder.withIndent("     ");
   String str = encoder.convert(json);
   log(str);
-}
-
-enum ThreeDsState {
-  threeDs,
-  threeDs2,
-  none,
 }
 
 showError(BuildContext context, Function()? onError) {
@@ -77,4 +65,19 @@ showError(BuildContext context, Function()? onError) {
       ],
     ),
   );
+}
+
+class Logger {
+  static LogLevel logLevel = LogLevel.all;
+
+  static void change(LogLevel setLog) {
+    logLevel = setLog;
+  }
+
+  static void log(String message, String where) {
+    if (logLevel == LogLevel.none) {
+      return;
+    }
+    print('$where: $message');
+  }
 }

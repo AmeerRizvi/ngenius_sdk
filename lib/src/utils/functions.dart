@@ -3,8 +3,9 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:ngenius_sdk/src/models/card_form_results.dart';
 import 'package:ngenius_sdk/src/models/payment_response.dart';
+import 'package:ngenius_sdk/src/utils/utils.dart';
 
-Future<String?> getAccessToken({
+Future<String?> fetchAccessToken({
   required String baseUrl,
   required String apiKey,
   required Function() onError,
@@ -19,13 +20,13 @@ Future<String?> getAccessToken({
     final token = response.data['access_token'] as String;
     return token;
   } catch (e) {
-    log("$e");
+    Logger.log("$e", 'fetchAccessToken');
     onError.call();
     return null;
   }
 }
 
-Future<String?> createOrder({
+Future<String?> createPaymentOrder({
   required String baseUrl,
   required String token,
   required String outletId,
@@ -52,7 +53,7 @@ Future<String?> createOrder({
 
     return paymentUrl;
   } catch (e) {
-    log("$e");
+    Logger.log("$e", 'createPaymentOrder');
     onError.call();
     return null;
   }
@@ -62,7 +63,7 @@ const endpointAccessToken = "/identity/auth/access-token";
 String endpointOrder(String outletId) =>
     "/transactions/outlets/$outletId/orders";
 
-Future<PaymentResponse?> createPayment({
+Future<PaymentResponse?> sendPaymentDetails({
   required CardFormResults results,
   required String paymentUrl,
   required String token,
@@ -83,13 +84,13 @@ Future<PaymentResponse?> createPayment({
 
     return PaymentResponse.fromJson(response.data);
   } catch (e) {
-    log("$e");
+    Logger.log("$e", 'sendPaymentDetails');
     onError.call();
     return null;
   }
 }
 
-Future<void> handleAuthentication({
+Future<void> authorizePayment({
   required String url,
   required String token,
   required Map data,
@@ -111,12 +112,13 @@ Future<void> handleAuthentication({
       onError.call();
     }
   } catch (e) {
+    Logger.log("$e", 'authorizePayment');
     log("$e");
     onError.call();
   }
 }
 
-Future<void> sendDeviceInfo({
+Future<void> sendDeviceMetadata({
   required String? authDeviceUrl,
   required String token,
   required Function() onError,
@@ -160,7 +162,7 @@ Future<void> sendDeviceInfo({
       onSuccess(acsUrl, base64Encoded);
     }
   } catch (e) {
-    log("$e");
+    Logger.log("$e", 'sendDeviceMetadata');
     onError.call();
   }
 }

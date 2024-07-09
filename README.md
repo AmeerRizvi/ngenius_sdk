@@ -1,15 +1,14 @@
-# ngenius_sdk
+Test Cards
 
-A new Flutter plugin project.
+4012001037141112 3ds activated
+4792445612017070 3ds declined
+5457210001000019 3ds2 activated
+4000000000000002 3ds2 declined
 
-## Getting Started
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+known issues:
 
-For help getting started with Flutter development, view the
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+amex is not working
 
+to build
+proper error message display

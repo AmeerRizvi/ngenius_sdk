@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:ngenius_sdk/src/models/card_form_results.dart';
+import 'package:ngenius_sdk/src/utils/enums.dart';
 import 'package:ngenius_sdk/src/utils/functions.dart';
 import 'package:ngenius_sdk/src/utils/utils.dart';
 import 'package:ngenius_sdk/src/widgets/card_form.dart';
@@ -20,6 +21,7 @@ class CheckoutScreen extends StatefulWidget {
     required this.currency,
     required this.amount,
     required this.onPaymentCreated,
+    required this.logLevel,
     this.onError,
   });
 
@@ -27,6 +29,7 @@ class CheckoutScreen extends StatefulWidget {
   final void Function()? onError;
   final String apiUrl, apiKey, outletId, currency;
   final int amount;
+  final LogLevel logLevel;
 
   @override
   _CheckoutScreenState createState() => _CheckoutScreenState();
@@ -40,6 +43,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   _showError() => showError(context, widget.onError);
 
   @override
+  void initState() {
+    super.initState();
+    Logger.change(widget.logLevel);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final apiUrl = widget.apiUrl;
     final apiKey = widget.apiKey;
@@ -49,17 +58,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
     submit(CardFormResults p0) async {
       setState(() => isLoading = true);
-      token = await getAccessToken(
+      token = await fetchAccessToken(
         baseUrl: apiUrl,
         apiKey: apiKey,
         onError: () => _showError(),
       );
-      if (token == null) {
-        setState(() => isLoading = false);
-        return;
-      }
 
-      final paymentUrl = await createOrder(
+      final paymentUrl = await createPaymentOrder(
         baseUrl: apiUrl,
         token: token!,
         outletId: outletId,
@@ -67,23 +72,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         value: amount,
         onError: () => _showError(),
       );
-      if (paymentUrl == null) {
-        setState(() => isLoading = false);
-        return;
-      }
 
-      final paymentResponse = await createPayment(
+      final paymentResponse = await sendPaymentDetails(
         results: p0,
-        paymentUrl: paymentUrl,
+        paymentUrl: paymentUrl!,
         token: token!,
         onError: () => _showError(),
       );
-      if (paymentResponse == null) {
-        setState(() => isLoading = false);
-        return;
-      }
 
-      final state = paymentResponse.state;
+      final state = paymentResponse!.state;
       final threeDS = paymentResponse.threeDS;
       final threeDs2 = paymentResponse.threeDS2;
 
@@ -102,7 +99,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           threeDsStatus = ThreeDsState.threeDs2;
           auth3dsUrl = paymentResponse.links.cnp3ds2ChallengeResponse!.href;
 
-          sendDeviceInfo(
+          await sendDeviceMetadata(
             token: token!,
             authDeviceUrl: paymentResponse.links.cnp3ds2Authentication!.href,
             onError: () {
@@ -170,8 +167,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
-  CardScreen cardView(
-      int amount, String currency, Future<Null> Function(CardFormResults p0) submit) {
+  CardScreen cardView(int amount, String currency,
+      Future<Null> Function(CardFormResults p0) submit) {
     return CardScreen(
       price: amount.toString(),
       currency: currency,
@@ -208,7 +205,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         ),
       ),
       onWebViewCreated: (controller) {
-        // Inject JavaScript to modify the viewport meta tag
         controller.evaluateJavascript(source: '''
         var meta = document.createElement('meta');
         meta.name = 'viewport';
@@ -222,7 +218,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       },
       onLoadStop: (controller, url) async {
         setState(() => isLoading = false);
-        // Execute the JavaScript to modify the viewport
         controller.evaluateJavascript(source: '''
         (function() {
           var meta = document.querySelector('meta[name=viewport]');
@@ -246,11 +241,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             final params = Uri.splitQueryString(body);
             final data = threeDsStatus == ThreeDsState.threeDs
                 ? {"PaRes": params['PaRes']}
-                : threeDsStatus == ThreeDsState.threeDs
+                : threeDsStatus == ThreeDsState.threeDs2
                     ? {"base64EncodedCRes": params['cres']}
                     : null;
             if (data != null) {
-              handleAuthentication(
+              authorizePayment(
                 url: auth3dsUrl!,
                 token: token!,
                 data: data,
@@ -269,6 +264,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   });
                 },
               );
+            } else {
+              setState(() {
+                isLoading = false;
+                screenStatus = ScreenStatus.details;
+                _showError();
+              });
             }
 
             return NavigationActionPolicy.CANCEL;

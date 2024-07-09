@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ngenius_sdk/ngenius_sdk.dart';
 import 'dart:async';
 
 import 'package:ngenius_sdk/src/models/card_form_results.dart';
@@ -116,6 +117,9 @@ class _CardScreenState extends State<CardScreen> {
                 controller: cCardNumber,
                 keyboardType: TextInputType.number,
                 validator: (value) {
+                  if(amexCheck(value)) {
+                    return null;
+                  }
                   if (CreditNumberSubmitRegexValidator().isValid(value!)) {
                     return null;
                   }
@@ -204,9 +208,9 @@ class _CardScreenState extends State<CardScreen> {
                       width: 30,
                       child: isCvvFront
                           ? Image.asset('assets/images/cvv_front.png',
-                              package: 'checkout_screen_ui')
+                              package: 'ngenius_sdk')
                           : Image.asset('assets/images/cvv_back.png',
-                              package: 'checkout_screen_ui'),
+                              package: 'ngenius_sdk'),
                     ),
                   ),
                 ),
@@ -311,43 +315,43 @@ class _BrandsDisplayState extends State<_BrandsDisplay> {
     height: 15,
     width: 30,
     child: Image.asset('assets/images/card_diners.png',
-        package: 'checkout_screen_ui'),
+        package: 'ngenius_sdk'),
   );
   Widget jcb = SizedBox(
     height: 15,
     width: 30,
     child: Image.asset('assets/images/card_jcb.png',
-        package: 'checkout_screen_ui'),
+        package: 'ngenius_sdk'),
   );
   Widget union = SizedBox(
     height: 15,
     width: 30,
     child: Image.asset('assets/images/card_union_pay.png',
-        package: 'checkout_screen_ui'),
+        package: 'ngenius_sdk'),
   );
   Widget discover = SizedBox(
     height: 15,
     width: 30,
     child: Image.asset('assets/images/card_discover.png',
-        package: 'checkout_screen_ui'),
+        package: 'ngenius_sdk'),
   );
   Widget visa = SizedBox(
     height: 15,
     width: 30,
     child: Image.asset('assets/images/card_visa.png',
-        package: 'checkout_screen_ui'),
+        package: 'ngenius_sdk'),
   );
   Widget master = SizedBox(
     height: 15,
     width: 30,
     child: Image.asset('assets/images/card_mastercard.png',
-        package: 'checkout_screen_ui'),
+        package: 'ngenius_sdk'),
   );
   Widget amex = SizedBox(
     height: 15,
     width: 30,
     child: Image.asset('assets/images/card_amex.png',
-        package: 'checkout_screen_ui'),
+        package: 'ngenius_sdk'),
   );
 
   Widget? image;

@@ -1,20 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-/// Status of the pay button based ont he transaction in progress.
-/// The icon and text will update based on the status provided
-enum CardPayButtonStatus {
-  // ignore: constant_identifier_names
-  not_ready,
-  ready,
-  processing,
-  success,
-  fail,
-}
+import 'package:ngenius_sdk/ngenius_sdk.dart';
 
 class CardPayButton extends StatefulWidget {
-  /// Button representing the option to submit the credit card info and start
-  /// the process of a payment.
   const CardPayButton({
     super.key,
     required this.onPressed,
@@ -132,9 +120,9 @@ class FormValidator {
   }
 
   String? validatePhone(String input) {
-    const pattern = r'(^[0-9]{10}$)'; // 2345678901
+    const pattern = r'(^[0-9]{10}$)';
     final regExp = RegExp(pattern);
-    const pattern2 = r'(^\d{3}-\d{3}-\d{4}$)'; //234-567-8901
+    const pattern2 = r'(^\d{3}-\d{3}-\d{4}$)';
     final regExp2 = RegExp(pattern2);
 
     if (input.isEmpty) {
@@ -149,8 +137,6 @@ class FormValidator {
   }
 
   static String getDisplayAmexNumberFormat(String input) {
-    // amex   4-6-5
-
     input = input.replaceAll(RegExp("[^\\d]"), "");
     if (input.length >= 4) {
       input = '${input.substring(0, 4)} ${input.substring(4)}';
@@ -165,13 +151,6 @@ class FormValidator {
   }
 
   static String getDisplayCreditNumberFormat(String input) {
-    // visa   4-4-4-4
-    // disc   4-4-4-4
-    // master 4-4-4-4
-    // diners 4-4-4-4
-    // jcb    4-4-4-4
-    // union  4-4-4-4
-
     input = input.replaceAll(RegExp("[^\\d]"), "");
     if (input.length >= 4) {
       input = '${input.substring(0, 4)} ${input.substring(4)}';
@@ -214,8 +193,6 @@ class RegexValidator implements StringValidator {
   RegexValidator({this.regexSource});
   final String? regexSource;
 
-  /// value: the input string
-  /// returns: true if the input string is a full match for regexSource
   @override
   bool isValid(String value) {
     try {
@@ -228,7 +205,6 @@ class RegexValidator implements StringValidator {
       }
       return false;
     } catch (e) {
-      // Invalid regex
       assert(false, e.toString());
       return true;
     }
@@ -339,3 +315,6 @@ class MaskedTextInputFormatter extends TextInputFormatter {
     return newValue;
   }
 }
+
+bool amexCheck(String? value) =>
+    (value?.replaceAll(' ', '').trim().length == 15);

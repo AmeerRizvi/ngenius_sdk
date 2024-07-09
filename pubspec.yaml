@@ -1,6 +1,6 @@
 name: ngenius_sdk
 description: "A Flutter plugin for processing payments with Ngenius."
-version: 0.0.6
+version: 0.0.7
 homepage: "https://ameerrizvi.online"
 
 environment:
@@ -23,4 +23,4 @@ dev_dependencies:
 
 flutter:
   assets:
-    - assets/images
+    - assets/images/

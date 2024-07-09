@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ngenius_sdk/src/utils/enums.dart';
 import 'screens/checkout_screen.dart';
 
 class NgeniusCheckout extends StatelessWidget {
@@ -9,6 +10,7 @@ class NgeniusCheckout extends StatelessWidget {
   final int amount;
   final VoidCallback onPaymentCreated;
   final VoidCallback? onError;
+  final LogLevel logLevel;
 
   const NgeniusCheckout({
     required this.apiUrl,
@@ -17,6 +19,7 @@ class NgeniusCheckout extends StatelessWidget {
     required this.currency,
     required this.amount,
     required this.onPaymentCreated,
+    this.logLevel = LogLevel.all,
     this.onError,
     Key? key,
   }) : super(key: key);
@@ -31,6 +34,7 @@ class NgeniusCheckout extends StatelessWidget {
       amount: amount,
       onPaymentCreated: onPaymentCreated,
       onError: onError,
+      logLevel: logLevel,
     );
   }
 }
