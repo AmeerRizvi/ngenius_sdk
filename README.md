@@ -25,6 +25,8 @@ Ngenius Flutter SDK simplifies the integration of Ngenius payment gateway in Flu
 - [Issues and Feedback](#issues-and-feedback)
 - [Contributing](#contributing)
 
+![Checkout/Authorization](https://github.com/AmeerRizvi/ngenius_sdk/assets/63542458/8f9ba7f0-364f-440e-8011-8af3f7106bf2)
+
 # Features
 
 - Seamless integration with Ngenius payment gateway
