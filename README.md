@@ -3,6 +3,8 @@
 
 A comprehensive solution for processing payments with Ngenius in your Flutter app.
 
+[<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxwdNObVNU6uYMzDO17DgJBTCFHs5-yY2IkA&s" width="100" />](https://docs.ngenius-payments.com/reference)
+
 # Motivation
 
 Ngenius Flutter SDK simplifies the integration of Ngenius payment gateway in Flutter applications by providing seamless support for card payments, 3DS and 3DS2 authentication, and customizable UI components.
@@ -29,8 +31,6 @@ Ngenius Flutter SDK simplifies the integration of Ngenius payment gateway in Flu
 - Support for card payments
 - 3DS and 3DS2 authentication support
 - Customizable UI components
-
-https://github.com/AmeerRizvi/ngenius_sdk/assets/63542458/cef4abf3-eabb-4e81-be0f-1242f0aa6b02
 
 # Getting Started
 
