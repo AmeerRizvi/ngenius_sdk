@@ -30,6 +30,8 @@ Ngenius Flutter SDK simplifies the integration of Ngenius payment gateway in Flu
 - 3DS and 3DS2 authentication support
 - Customizable UI components
 
+https://github.com/AmeerRizvi/ngenius_sdk/assets/63542458/cef4abf3-eabb-4e81-be0f-1242f0aa6b02
+
 # Getting Started
 
 To use this plugin, add `ngenius_sdk` as a dependency in your `pubspec.yaml` file.
