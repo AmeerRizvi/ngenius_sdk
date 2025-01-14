@@ -33,6 +33,7 @@ Future<String?> createPaymentOrder({
   required String currency,
   required int value,
   required Function() onError,
+  required String action,
 }) async {
   try {
     final dio = Dio(BaseOptions(baseUrl: baseUrl));
@@ -43,7 +44,7 @@ Future<String?> createPaymentOrder({
     final response = await dio.post(
       endpointOrder(outletId),
       data: {
-        "action": "PURCHASE",
+        "action": action,
         "amount": {"currencyCode": currency, "value": value}
       },
     );

@@ -11,6 +11,7 @@ class NgeniusCheckout extends StatelessWidget {
   final VoidCallback onPaymentCreated;
   final VoidCallback? onError;
   final LogLevel logLevel;
+  final String action;
 
   const NgeniusCheckout({
     required this.apiUrl,
@@ -21,6 +22,7 @@ class NgeniusCheckout extends StatelessWidget {
     required this.onPaymentCreated,
     this.logLevel = LogLevel.all,
     this.onError,
+    required this.action,
     Key? key,
   }) : super(key: key);
 
@@ -35,6 +37,7 @@ class NgeniusCheckout extends StatelessWidget {
       onPaymentCreated: onPaymentCreated,
       onError: onError,
       logLevel: logLevel,
+      action: action,
     );
   }
 }

@@ -50,7 +50,7 @@ class CheckoutScreen extends StatelessWidget {
           ),
         );
         Navigator.pop(context);
-      },
+      }, action: 'AUTH',
       // logLevel: LogLevel.all,
       // onError: () => print('An error occured'),
     );

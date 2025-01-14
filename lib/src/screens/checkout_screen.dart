@@ -13,21 +13,21 @@ import 'package:ngenius_sdk/src/widgets/loading_screen.dart';
 import 'package:ngenius_sdk/src/widgets/success_screen.dart';
 
 class CheckoutScreen extends StatefulWidget {
-  const CheckoutScreen({
-    super.key,
-    required this.apiUrl,
-    required this.apiKey,
-    required this.outletId,
-    required this.currency,
-    required this.amount,
-    required this.onPaymentCreated,
-    required this.logLevel,
-    this.onError,
-  });
+  const CheckoutScreen(
+      {super.key,
+      required this.apiUrl,
+      required this.apiKey,
+      required this.outletId,
+      required this.currency,
+      required this.amount,
+      required this.onPaymentCreated,
+      required this.logLevel,
+      this.onError,
+      required this.action});
 
   final void Function() onPaymentCreated;
   final void Function()? onError;
-  final String apiUrl, apiKey, outletId, currency;
+  final String apiUrl, apiKey, outletId, currency, action;
   final int amount;
   final LogLevel logLevel;
 
@@ -40,6 +40,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   ScreenStatus screenStatus = ScreenStatus.details;
   ThreeDsState threeDsStatus = ThreeDsState.none;
   String? token, auth3dsUrl, authUrl, authBody;
+
   _showError() => showError(context, widget.onError);
 
   @override
@@ -55,6 +56,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     final outletId = widget.outletId;
     final currency = widget.currency;
     final amount = widget.amount;
+    final action = widget.action;
 
     submit(CardFormResults p0) async {
       setState(() => isLoading = true);
@@ -71,6 +73,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         currency: currency,
         value: amount,
         onError: () => _showError(),
+        action: action,
       );
 
       final paymentResponse = await sendPaymentDetails(
